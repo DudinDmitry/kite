@@ -9,7 +9,7 @@
 
                 <div class="panel-body">
                     @foreach($allResults as $allResult)
-                        {{$allResult->date}} ({{$allResult->count}})<br>
+                        <a href="/result/{{$allResult->date}}"> {{$allResult->date}} ({{$allResult->count}})</a><br>
                     @endforeach
                 </div>
             </div>

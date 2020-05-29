@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'HomeController@index');
+Route::get('result/{date}','HomeController@showResult');
 
 Auth::routes();
 

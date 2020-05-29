@@ -25,10 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $allResults=DB::table('results')->select(DB::raw('count(date) as count,date'))->groupBy('date')->get();
-        return view('home',[
-            'allResults'=>$allResults
+        $allResults = DB::table('results')->select(DB::raw('count(date) as count,date'))->groupBy('date')->get();
+        return view('home', [
+            'allResults' => $allResults
         ]);
-
+    }
+    public function showResult($date)
+    {
+        echo $date;
     }
 }
