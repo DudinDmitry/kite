@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Result;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,8 +31,15 @@ class HomeController extends Controller
             'allResults' => $allResults
         ]);
     }
+
     public function showResult($date)
     {
-        echo $date;
+        $allData = Result::all();
+        $allDataToday=$allData->where('date',$date);
+        return view('result.show', [
+            'allData'=>$allData,
+            'allDataToday'=>$allDataToday,
+            'date'=>$date
+        ]);
     }
 }
