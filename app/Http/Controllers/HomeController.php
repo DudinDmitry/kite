@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,10 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
-    }
-    public function db()
-    {
-        return 'test';
+        $allResults=DB::table('results')->select(DB::raw('count(date) as count,date'))->groupBy('date')->get();
+        return view('home',[
+            'allResults'=>$allResults
+        ]);
+
     }
 }
