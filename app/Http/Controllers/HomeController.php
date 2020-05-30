@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
-
 class HomeController extends Controller
 {
     /**
@@ -36,24 +35,33 @@ class HomeController extends Controller
         ]);
     }
 
-    public function showResult(Request $request,$date)
+    public function showResult(Request $request, $date)
     {
-        if ($request->has('test'))
-        {
-            $message=Result::find($request->id);
-            $message->message=$request->message;
+        if ($request->has('edit-message')) {
+            $message = Result::find($request->id);
+            $message->message = $request->message;
             $message->save();
             Session::flash('message', 'Комментарий обновлён');
 
         }
+        if ($request->has('boot')) {
+            $message = new Result;
+            $message->message = $request->addmessage;
+            $message->date=$date;
+            $user=User::find(Auth::id());
+            $user->results()->save($message);
+            Session::flash('message', 'Добавлена новая запись');
+
+        }
         $allData = Result::all();
-        $allDataToday=$allData->where('date',$date);
-        $id=Auth::id();
+        $allDataToday = $allData->where('date', $date);
+        $id = Auth::id();
+        //dump($allData->find(1)->users->first()->name);
         return view('result.show', [
-            'allData'=>$allData,
-            'allDataToday'=>$allDataToday,
-            'date'=>$date,
-            'id'=>$id
+            'allData' => $allData,
+            'allDataToday' => $allDataToday,
+            'date' => $date,
+            'id' => $id
         ]);
     }
 }
