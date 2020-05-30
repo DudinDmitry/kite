@@ -3,8 +3,9 @@
 @section('content')
     <div class="container">
         <div class="row">
-
             <div class="col-md-8 col-md-offset-2">
+                <div class="alert alert-info" style="text-align: center">
+                    <h3>Дата итогов: {{$date}}</h3></div>
                 @if (Session::has('message'))
                     <div class="alert alert-success" id="error-message">{{Session::get('message')}}</div>
                     <script>
@@ -13,13 +14,14 @@
                         }, 1500)
                     </script>
                 @endif
-                <div class="panel panel-default">
-                    <div class="panel-heading">Итоги: {{$date}}</div>
 
 
-                    @foreach($allDataToday as $data)
+
+                @foreach($allDataToday as $data)
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h4> {{$allData[($data->id)-1]->users[0]->name}}</h4></div>
                         <div class="panel-body">
-                            <h4> {{$allData[($data->id)-1]->users[0]->name}}</h4>
+
                             @if($allData[($data->id)-1]->users[0]->id == $id)
                                 <a href="#" onclick="openbox('box'); return false">(Редактировать)</a>
                                 <form id="box" style="display: none;" method="post">
@@ -35,22 +37,23 @@
                                         display = document.getElementById(id).style.display;
                                         if (display == 'none') {
                                             document.getElementById(id).style.display = 'block';
-                                            document.getElementById('messagetest').style.display = 'none';
+                                            document.getElementById('id-message').style.display = 'none';
                                         } else {
                                             document.getElementById(id).style.display = 'none';
-                                            document.getElementById('messagetest').style.display = 'block';
+                                            document.getElementById('id-message').style.display = 'block';
                                         }
                                     }
                                 </script>
                             @endif
 
-                                <div @if($allData[($data->id)-1]->users[0]->id == $id) id="messagetest" @endif
-                                >{{$data->message}}</div>
+                            <div @if($allData[($data->id)-1]->users[0]->id == $id) id="id-message" @endif
+                            >{{$data->message}}</div>
 
                         </div>
-                    @endforeach
+                    </div>
+                @endforeach
 
-                </div>
+
             </div>
         </div>
     </div>
