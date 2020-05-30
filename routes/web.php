@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'HomeController@index');
-Route::get('result/{date}','HomeController@showResult');
+Route::match(['post','get'],'result/{date}','HomeController@showResult');
 
 Auth::routes();
 

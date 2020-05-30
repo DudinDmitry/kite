@@ -3,17 +3,52 @@
 @section('content')
     <div class="container">
         <div class="row">
+
             <div class="col-md-8 col-md-offset-2">
+                @if (Session::has('message'))
+                    <div class="alert alert-success" id="error-message">{{Session::get('message')}}</div>
+                    <script>
+                        setTimeout(function () {
+                            $('#error-message').hide();
+                        }, 1500)
+                    </script>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading">Итоги: {{$date}}</div>
-                    @foreach($allDataToday as $data)
-                    <div class="panel-body">
 
-                            Дата: {{$data->date}}<br>
-                            Автор: {{$allData[($data->id)-1]->users[0]->name}}<br>
-                            Сообщение: {{$data->message}}<br>
-                    </div>
-                        @endforeach
+
+                    @foreach($allDataToday as $data)
+                        <div class="panel-body">
+                            <h4> {{$allData[($data->id)-1]->users[0]->name}}</h4>
+                            @if($allData[($data->id)-1]->users[0]->id == $id)
+                                <a href="#" onclick="openbox('box'); return false">(Редактировать)</a>
+                                <form id="box" style="display: none;" method="post">
+                                    {{csrf_field()}}
+                                    <textarea class="form-control" id="exampleFormControlTextarea1"
+                                              rows="3" name="message"
+                                              style="width: 50%">{{$data->message}}</textarea><br>
+                                    <input type="hidden" name="id" value="{{$data->id}}">
+                                    <input type="submit" name="test">
+                                </form>
+                                <script type="text/javascript">
+                                    function openbox(id) {
+                                        display = document.getElementById(id).style.display;
+                                        if (display == 'none') {
+                                            document.getElementById(id).style.display = 'block';
+                                            document.getElementById('messagetest').style.display = 'none';
+                                        } else {
+                                            document.getElementById(id).style.display = 'none';
+                                            document.getElementById('messagetest').style.display = 'block';
+                                        }
+                                    }
+                                </script>
+                            @endif
+
+                                <div @if($allData[($data->id)-1]->users[0]->id == $id) id="messagetest" @endif
+                                >{{$data->message}}</div>
+
+                        </div>
+                    @endforeach
 
                 </div>
             </div>
