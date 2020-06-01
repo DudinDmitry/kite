@@ -23,8 +23,8 @@
                             <form id="box" style="display: none;" method="post">
                                 {{csrf_field()}}
                                 <textarea class="form-control" id="exampleFormControlTextarea1"
-                                          rows="3" name="message"
-                                          style="width: 50%">{{$data->message}}</textarea><br>
+                                          rows="4" name="message"
+                                          style="width: 100%;max-width: 100%;">{{$data->message}}</textarea><br>
                                 <input type="hidden" name="id" value="{{$data->id}}">
                                 <input type="submit" name="edit-message">
                             </form>
@@ -67,7 +67,7 @@
                                 {{csrf_field()}}
                                 <textarea class="form-control" id="exampleFormControlTextarea1"
                                           rows="3" name="addmessage"
-                                          style="width: 100%" placeholder="Введите заметку"></textarea><br>
+                                          style="max-width: 100%" placeholder="Введите заметку"></textarea><br>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть
                                     </button>

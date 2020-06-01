@@ -8,7 +8,6 @@
                 <div class="panel-heading">Выберите Итоги</div>
 
                 <div class="panel-body">
-
                     @foreach($allResults as $allResult)
                         <a href="/result/{{$allResult->date}}"> <h4>{{$allResult->date}} ({{$allResult->count}})</h4></a>
                     @endforeach

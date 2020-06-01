@@ -30,8 +30,16 @@ class HomeController extends Controller
     public function index()
     {
         $allResults = DB::table('results')->select(DB::raw('count(date) as count,date'))->groupBy('date')->get();
+
+       /* setlocale(LC_ALL, 'ru_RU.UTF-8');
+        $newarr=[];
+        foreach ($allResults as $allResult) {
+           $newarr[]= strftime('%e %B %Y',strtotime($allResult->date));
+        }
+        $test = strtotime($allResults[0]->date);
+        $test = strftime('%e %B %Y', $test);*/
         return view('home', [
-            'allResults' => $allResults
+            'allResults' => $allResults,
         ]);
     }
 
@@ -47,7 +55,7 @@ class HomeController extends Controller
         if ($request->has('boot')) {
             $test = User::find(Auth::id())->results()->where('date', $date)->get()->first();
             if ($test && $test->count()) {
-                $test->message = $test->message.chr(13).$request->addmessage;
+                $test->message = $test->message . chr(13) . $request->addmessage;
                 $test->save();
                 Session::flash('message', 'Добавлены данные в вашу заметку');
 
