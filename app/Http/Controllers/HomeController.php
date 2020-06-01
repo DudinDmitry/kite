@@ -45,9 +45,11 @@ class HomeController extends Controller
 
         }
         if ($request->has('boot')) {
-            $test = User::find(Auth::id())->results()->where('date', $date)->get();
-            if ($test) {
-                echo 'Такая запись уже есть';
+            $test = User::find(Auth::id())->results()->where('date', $date)->get()->first();
+            if ($test && $test->count()) {
+                $test->message = $test->message.chr(13).$request->addmessage;
+                $test->save();
+                Session::flash('message', 'Добавлены данные в вашу заметку');
 
             } else {
                 $message = new Result;

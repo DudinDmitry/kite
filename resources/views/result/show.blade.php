@@ -42,7 +42,7 @@
                             </script>
                         @endif
                         <div @if($allData->find($data->id)->users->first()->id == $id) id="id-message" @endif
-                        >{{$data->message}}</div>
+                        >{!! nl2br($data->message,false)!!}</div>
                         @if($allData->find($data->id)->users->first()->id == $id)
                             <form method="post">
                                 {{csrf_field()}}
