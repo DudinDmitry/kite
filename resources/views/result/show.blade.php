@@ -19,8 +19,7 @@
                     <div class="panel-heading"><h4> {{$allData->find($data->id)->users->first()->name}}</h4></div>
                     <div class="panel-body">
                         @if($allData->find($data->id)->users->first()->id == $id)
-                            <a href="#" onclick="openbox('box'); return false">Редактировать</a> |
-                            <a href="#">Удалить</a>
+                            <a href="#" onclick="openbox('box'); return false">Редактировать</a>
                             <form id="box" style="display: none;" method="post">
                                 {{csrf_field()}}
                                 <textarea class="form-control" id="exampleFormControlTextarea1"
@@ -44,6 +43,13 @@
                         @endif
                         <div @if($allData->find($data->id)->users->first()->id == $id) id="id-message" @endif
                         >{{$data->message}}</div>
+                        @if($allData->find($data->id)->users->first()->id == $id)
+                            <form method="post">
+                                {{csrf_field()}}
+                                <input type="hidden" name="deleteIdMessage" value="{{$data->id}}">
+                                <input type="submit" class="btn btn-danger pull-right" value="Удалить" name="delete">
+                            </form>
+                        @endif
                     </div>
 
                 </div>

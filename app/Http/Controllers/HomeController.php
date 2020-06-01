@@ -45,18 +45,33 @@ class HomeController extends Controller
 
         }
         if ($request->has('boot')) {
-            $message = new Result;
-            $message->message = $request->addmessage;
-            $message->date=$date;
-            $user=User::find(Auth::id());
-            $user->results()->save($message);
-            Session::flash('message', 'Добавлена новая запись');
+            $test = User::find(Auth::id())->results()->where('date', $date)->get();
+            if ($test) {
+                echo 'Такая запись уже есть';
 
+            } else {
+                $message = new Result;
+                $message->message = $request->addmessage;
+                $message->date = $date;
+                $user = User::find(Auth::id());
+                $user->results()->save($message);
+                Session::flash('message', 'Добавлена новая запись');
+            }
+        }
+        if ($request->has('delete')) {
+            User::find(Auth::id())->results()->find($request->deleteIdMessage)->delete();
+            DB::table('result_user')->where([
+                ['user_id', Auth::id()],
+                ['result_id', $request->deleteIdMessage]
+            ])->delete();
+            Session::flash('message', 'Ваша заметка удалена');
         }
         $allData = Result::all();
         $allDataToday = $allData->where('date', $date);
         $id = Auth::id();
-        //dump($allData->find(1)->users->first()->name);
+        //dump(User::find(Auth::id())->results()->where('date',$date)->delete());
+        //dump(User::find(Auth::id())->results());
+
         return view('result.show', [
             'allData' => $allData,
             'allDataToday' => $allDataToday,
@@ -64,4 +79,5 @@ class HomeController extends Controller
             'id' => $id
         ]);
     }
+
 }
