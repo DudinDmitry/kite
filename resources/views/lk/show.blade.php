@@ -53,35 +53,35 @@
                             </div>
                         </div>
                     </div>
-
-
-                    @foreach($messages as $message)
-
-                        <div class="panel-body">
-                            <b>Дата итогов: {{$message->date}}</b><br>
-                            <b>ID сообщения: {{$message->id}}</b><br>
-                            <p onclick="openbox('{{$message->id}}')" style="display: block"
-                               id="id-message{{$message->id}}">{!! nl2br($message->message) !!}</p>
-
-                            <form id="box{{$message->id}}" style="display: none;" method="post">
-                                {{csrf_field()}}
-                                <textarea class="form-control" id="exampleFormControlTextarea1"
-                                          rows="4" name="form[{{$message->id}}][message]"
-                                          style="width: 100%;max-width: 100%;">{{$message->message}}</textarea><br>
-                                <input type="hidden" name="form[{{$message->id}}][id]" value="{{$message->id}}">
-                                <input type="submit" name="form[{{$message->id}}][edit-message]" class="btn btn-primary"
-                                       value="Сохранить">
-
-                                <button id="end{{$message->id}}" onclick="end({{$message->id}})" type="button"
-                                        class="btn btn-outline-light pull-right">Отмена
-                                </button>
-                                <input type="hidden" name="deleteIdMessage" value="{{$message->id}}">
-                                <input type="submit" class="btn btn-danger pull-right" value="Удалить" name="delete">
-                            </form>
-
+                    @foreach($messagesGroupBy as $date=>$messages)
+                        <div class="panel-heading">
+                        <div class="alert alert-info text-center" >
+                            <h3>Итоги: <a href="/result/{{$date}}" class="alert-link">{{$date}}</a></h3>
+                        </div>
+                            @foreach($messages as $message)
+                                
+                                <b onclick="openbox('{{$message->id}}')">Заметка №: {{$message->id}}</b><br>
+                                <p onclick="openbox('{{$message->id}}')" style="display: block"
+                                   id="id-message{{$message->id}}">{!! nl2br($message->message) !!}</p>
+                                <form id="box{{$message->id}}" style="display: none;" method="post">
+                                    {{csrf_field()}}
+                                    <textarea class="form-control" id="exampleFormControlTextarea1"
+                                              rows="4" name="form[{{$message->id}}][message]"
+                                              style="width: 100%;max-width: 100%;">{{$message->message}}</textarea><br>
+                                    <input type="hidden" name="form[{{$message->id}}][id]" value="{{$message->id}}">
+                                    <input type="submit" name="form[{{$message->id}}][edit-message]"
+                                           class="btn btn-primary"
+                                           value="Сохранить">
+                                    <button id="end{{$message->id}}" onclick="end({{$message->id}})" type="button"
+                                            class="btn btn-outline-light pull-right">Отмена
+                                    </button>
+                                    <input type="hidden" name="deleteIdMessage" value="{{$message->id}}">
+                                    <input type="submit" class="btn btn-danger pull-right" value="Удалить"
+                                           name="delete">
+                                </form>
+                            @endforeach
                         </div>
                     @endforeach
-
                     <script>
                         function openbox(id) {
                             display = document.getElementById('box' + id).style.display;
@@ -99,7 +99,6 @@
                             document.getElementById('id-message' + id).style.display = 'block';
                         }
                     </script>
-
                 </div>
             </div>
         </div>

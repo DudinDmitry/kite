@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="col-md-8 col-md-offset-2">
-            <div class="alert alert-info" style="text-align: center">
+            <div class="alert alert-info text-center" >
                 <h3>Итоги: {{$date}}</h3></div>
             @if (Session::has('message'))
                 <div class="alert alert-success" id="error-message">{{Session::get('message')}}</div>

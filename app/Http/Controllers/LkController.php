@@ -45,12 +45,13 @@ class LkController extends Controller
             ])->delete();
             Session::flash('message', 'Ваша заметка удалена');
         }
-        //dump(DB::table('result'));
+        $messagesGroupBy=User::find(Auth::id())->results()->get()->groupBy('date');
         $messages = User::find(Auth::id())->results()->get();
         $results=DB::table('results')->select(DB::raw('date'))->groupBy('date')->get();
         return view('lk.show', [
             'messages' => $messages,
-            'results'=>$results
+            'results'=>$results,
+            'messagesGroupBy'=>$messagesGroupBy
         ]);
     }
 }
