@@ -16,8 +16,15 @@ class LkController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('edit-message')) {
+            $message = Result::find($request->id);
+            $message->message = $request->message;
+            $message->save();
+            Session::flash('message', 'Комментарий обновлён');
+
+        }
         $messages=User::find(Auth::id())->results()->get();
         //dump(DB::table('results')->select(DB::raw('date'))->groupBy('date')->get());
         return view('lk.show',[

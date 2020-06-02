@@ -17,38 +17,27 @@
 
                             <form id="box" style="display: none;" method="post">
                                 {{csrf_field()}}
-                                <div id="dud">
                                 <textarea class="form-control" id="exampleFormControlTextarea1"
                                           rows="4" name="message"
                                           style="width: 100%;max-width: 100%;">{{$message->message}}</textarea><br>
                                 <input type="hidden" name="id" value="{{$message->id}}">
-                                <input type="submit" name="edit-message">
-                                </div>
+                                <input type="submit" name="edit-message" class="btn btn-primary" value="Сохранить">
+                                <button id="end" type="button" class="btn btn-outline-light pull-right">Отмена
+                                </button>
                             </form>
                             <script>
                                 function openbox(id) {
                                     display = document.getElementById(id).style.display;
-
-
                                     if (display == 'none') {
                                         document.getElementById(id).style.display = 'block';
                                         document.getElementById('id-message').style.display = 'none';
-                                        /*if (container.has(event.target).length === 0) {
-    container.hide();
-}*/
                                     } else {
                                         document.getElementById(id).style.display = 'none';
                                         document.getElementById('id-message').style.display = 'block';
 
                                     }
                                 }
-                                $(document).onclick(function (e) {
-                                    var container = $("dud");
-                                    if (!container.is(e.target) // если клик был не по нашему блоку
-                                        && container.has(e.target).length === 0) { // и не по его дочерним элементам
-                                        container.hide(); // скрываем его
-                                    }
-                                })
+
                             </script>
                         </div>
                     @endforeach
