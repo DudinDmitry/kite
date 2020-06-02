@@ -13,7 +13,7 @@
 
 Route::get('/', 'HomeController@index');
 Route::match(['post','get'],'result/{date}','HomeController@showResult');
-Route::match(['post','get'],'/lk','LkController@index');
+Route::match(['post','get'],'/lk','LkController@index')->name('lk');
 
 Auth::routes();
 

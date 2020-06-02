@@ -53,8 +53,11 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
+                                        <a href="{{ route('lk') }}">
+                                            Личный кабинет
+                                        </a>
                                         <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
+                                           onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Выйти
                                         </a>
