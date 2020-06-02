@@ -32,10 +32,18 @@ class LkController extends Controller
         {
             $message = new Result;
             $message->message = $request->addmessage;
-            $message->date = '2020-06-05';
+            $message->date = $request->date;
             $user = User::find(Auth::id());
             $user->results()->save($message);
             Session::flash('message', 'Добавлена новая запись');
+        }
+        if ($request->has('delete')) {
+            User::find(Auth::id())->results()->find($request->deleteIdMessage)->delete();
+            DB::table('result_user')->where([
+                ['user_id', Auth::id()],
+                ['result_id', $request->deleteIdMessage]
+            ])->delete();
+            Session::flash('message', 'Ваша заметка удалена');
         }
         //dump(DB::table('result'));
         $messages = User::find(Auth::id())->results()->get();

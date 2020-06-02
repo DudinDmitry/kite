@@ -29,11 +29,13 @@
                                             {{csrf_field()}}
 
                                             <label for="inputState">Выбрать дату итогов:</label> <select
-                                                    class="form-control">
+                                                    class="form-control" style="width: 30%" name="date">
+
                                                 @foreach($results as $result)
-                                                    <option>{{$result->date}}</option>
+                                                    <option value="{{$result->date}}">{{$result->date}}</option>
                                                 @endforeach
                                             </select>
+
                                             <textarea class="form-control" id="exampleFormControlTextarea1"
                                                       rows="3" name="addmessage"
                                                       style="max-width: 100%"
@@ -69,9 +71,12 @@
                                 <input type="hidden" name="form[{{$message->id}}][id]" value="{{$message->id}}">
                                 <input type="submit" name="form[{{$message->id}}][edit-message]" class="btn btn-primary"
                                        value="Сохранить">
+
                                 <button id="end{{$message->id}}" onclick="end({{$message->id}})" type="button"
                                         class="btn btn-outline-light pull-right">Отмена
                                 </button>
+                                <input type="hidden" name="deleteIdMessage" value="{{$message->id}}">
+                                <input type="submit" class="btn btn-danger pull-right" value="Удалить" name="delete">
                             </form>
 
                         </div>
