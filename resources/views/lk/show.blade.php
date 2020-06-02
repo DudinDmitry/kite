@@ -21,8 +21,10 @@
                                           rows="4" name="form[{{$message->id}}][message]"
                                           style="width: 100%;max-width: 100%;">{{$message->message}}</textarea><br>
                                 <input type="hidden" name="form[{{$message->id}}][id]" value="{{$message->id}}">
-                                <input type="submit" name="form[{{$message->id}}][edit-message]" class="btn btn-primary" value="Сохранить">
-                                <button id="end" type="button" class="btn btn-outline-light pull-right">Отмена
+                                <input type="submit" name="form[{{$message->id}}][edit-message]" class="btn btn-primary"
+                                       value="Сохранить">
+                                <button id="end" onclick="end{{$message->id}}()" type="button"
+                                        class="btn btn-outline-light pull-right">Отмена
                                 </button>
                             </form>
                             <script>
@@ -34,10 +36,13 @@
                                     } else {
                                         document.getElementById(id).style.display = 'none';
                                         document.getElementById('id-message{{$message->id}}').style.display = 'block';
-
                                     }
                                 }
 
+                                function end{{$message->id}}() {
+                                    document.getElementById('box{{$message->id}}').style.display = 'none';
+                                    document.getElementById('id-message{{$message->id}}').style.display = 'block';
+                                }
                             </script>
                         </div>
                     @endforeach
