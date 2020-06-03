@@ -13,12 +13,14 @@
                     }, 1500)
                 </script>
             @endif
-            @foreach($allDataToday as $data)
+
+            @foreach($allUsers as $users)
                 <div class="panel panel-default">
 
-                    <div class="panel-heading"><h4> {{$allData->find($data->id)->users->first()->name}}</h4></div>
+                    <div class="panel-heading"><h4> {{$users->name}}</h4></div>
+                    @foreach($users->results->where('date','=',$date) as $data)
                     <div class="panel-body">
-                        @if($allData->find($data->id)->users->first()->id == $id)
+                        @if($users->id == $id)
                             <a href="#" onclick="openbox('box'); return false">Редактировать</a>
                             <form id="box" style="display: none;" method="post">
                                 {{csrf_field()}}
@@ -28,22 +30,10 @@
                                 <input type="hidden" name="id" value="{{$data->id}}">
                                 <input type="submit" name="edit-message">
                             </form>
-                            <script type="text/javascript">
-                                function openbox(id) {
-                                    display = document.getElementById(id).style.display;
-                                    if (display == 'none') {
-                                        document.getElementById(id).style.display = 'block';
-                                        document.getElementById('id-message').style.display = 'none';
-                                    } else {
-                                        document.getElementById(id).style.display = 'none';
-                                        document.getElementById('id-message').style.display = 'block';
-                                    }
-                                }
-                            </script>
                         @endif
-                        <div @if($allData->find($data->id)->users->first()->id == $id) id="id-message" @endif
+                        <div @if($users->id == $id) id="id-message" @endif
                         >{!! nl2br($data->message,false)!!}</div>
-                        @if($allData->find($data->id)->users->first()->id == $id)
+                        @if($users->id == $id)
                             <form method="post">
                                 {{csrf_field()}}
                                 <input type="hidden" name="deleteIdMessage" value="{{$data->id}}">
@@ -51,42 +41,22 @@
                             </form>
                         @endif
                     </div>
+                    @endforeach
 
                 </div>
             @endforeach
-            <p><a href="#myModal1" class="btn btn-primary" data-toggle="modal">Добавить заметку</a></p>
-            <div id="myModal1" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Запишите заметку, чтобы не забыть</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form method="post">
-                                {{csrf_field()}}
-                                <textarea class="form-control" id="exampleFormControlTextarea1"
-                                          rows="3" name="addmessage"
-                                          style="max-width: 100%" placeholder="Введите заметку"></textarea><br>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть
-                                    </button>
-                                    <input type="submit" class="btn btn-primary"
-                                           name="boot">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            @foreach($allUsers as $users)
-                Автор: {{$users->name}}<br>
-                @foreach($users->results->where('date','=',$date) as $test)
-                    Сообщение: {{$test->message}}<br><br>
-                @endforeach
-            @endforeach
-
+            <script type="text/javascript">
+                function openbox(id) {
+                    display = document.getElementById(id).style.display;
+                    if (display == 'none') {
+                        document.getElementById(id).style.display = 'block';
+                        document.getElementById('id-message').style.display = 'none';
+                    } else {
+                        document.getElementById(id).style.display = 'none';
+                        document.getElementById('id-message').style.display = 'block';
+                    }
+                }
+            </script>
         </div>
     </div>
     </div>
