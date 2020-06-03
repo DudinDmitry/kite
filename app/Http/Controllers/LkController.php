@@ -21,15 +21,13 @@ class LkController extends Controller
     {
         if ($request->has('form')) {
             foreach ($request->form as $form => $value) {
-                //dump($value);
                 $message = Result::find($value['id']);
                 $message->message = $value['message'];
                 $message->save();
                 Session::flash('message', 'Комментарий обновлён');
             }
         }
-        if ($request->has('boot'))
-        {
+        if ($request->has('boot')) {
             $message = new Result;
             $message->message = $request->addmessage;
             $message->date = $request->date;
@@ -45,13 +43,21 @@ class LkController extends Controller
             ])->delete();
             Session::flash('message', 'Ваша заметка удалена');
         }
-        $messagesGroupBy=User::find(Auth::id())->results()->get()->groupBy('date');
+        if ($request->has('public')) {
+            $message = Result::find($request->messageid);
+            $message->published = 1;
+            $message->save();
+            Session::flash('message', 'Заметка опубликована');
+        }
+
+        $messagesGroupBy = User::find(Auth::id())->results()->where('published', '=', NULL)->get()
+            ->groupBy('date');
         $messages = User::find(Auth::id())->results()->get();
-        $results=DB::table('results')->select(DB::raw('date'))->groupBy('date')->get();
+        $results = DB::table('results')->select(DB::raw('date'))->groupBy('date')->get();
         return view('lk.show', [
             'messages' => $messages,
-            'results'=>$results,
-            'messagesGroupBy'=>$messagesGroupBy
+            'results' => $results,
+            'messagesGroupBy' => $messagesGroupBy
         ]);
     }
 }

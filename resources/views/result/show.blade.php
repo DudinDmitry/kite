@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="col-md-8 col-md-offset-2">
-            <div class="alert alert-info text-center" >
+            <div class="alert alert-info text-center">
                 <h3>Итоги: {{$date}}</h3></div>
             @if (Session::has('message'))
                 <div class="alert alert-success" id="error-message">{{Session::get('message')}}</div>
@@ -79,6 +79,14 @@
                     </div>
                 </div>
             </div>
+
+            @foreach($allUsers as $users)
+                Автор: {{$users->name}}<br>
+                @foreach($users->results->where('date','=',$date) as $test)
+                    Сообщение: {{$test->message}}<br><br>
+                @endforeach
+            @endforeach
+
         </div>
     </div>
     </div>

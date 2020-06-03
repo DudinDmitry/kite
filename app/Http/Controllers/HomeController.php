@@ -78,15 +78,22 @@ class HomeController extends Controller
         }
         $allData = Result::all();
         $allDataToday = $allData->where('date', $date);
+        //$messagesGroupBy = User::find(Auth::id())->results()->where('published', '=', NULL)->get()
+        //            ->groupBy('date');
+        /*$allDataMessage=Result::where('date',$date)
+            ->where('published','=',1)
+            ->get()->groupBy('date');*/
+        //dump($allDataMessage);
         $id = Auth::id();
         //dump(User::find(Auth::id())->results()->where('date',$date)->delete());
         //dump(User::find(Auth::id())->results());
 
         return view('result.show', [
+            'allUsers'=>User::all(),
             'allData' => $allData,
             'allDataToday' => $allDataToday,
             'date' => $date,
-            'id' => $id
+            'id' => $id,
         ]);
     }
 

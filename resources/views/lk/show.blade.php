@@ -15,6 +15,7 @@
                         </script>
                     @endif
                     <div class="panel-heading">
+
                         <p><a href="#myModal1" class="btn btn-primary" data-toggle="modal">Добавить заметку</a></p>
                         <div id="myModal1" class="modal fade">
                             <div class="modal-dialog">
@@ -29,7 +30,7 @@
                                             {{csrf_field()}}
 
                                             <label for="inputState">Выбрать дату итогов:</label> <select
-                                                    class="form-control" style="width: 30%" name="date">
+                                                    class="form-control" style="width: 35%" name="date">
 
                                                 @foreach($results as $result)
                                                     <option value="{{$result->date}}">{{$result->date}}</option>
@@ -55,12 +56,17 @@
                     </div>
                     @foreach($messagesGroupBy as $date=>$messages)
                         <div class="panel-heading">
-                        <div class="alert alert-info text-center" >
-                            <h3>Итоги: <a href="/result/{{$date}}" class="alert-link">{{$date}}</a></h3>
-                        </div>
+                            <div class="alert alert-info text-center">
+                                <a href="/result/{{$date}}" class="alert-link"><h4>Итоги: {{$date}}</a></h4>
+                            </div>
                             @foreach($messages as $message)
-                                
-                                <b onclick="openbox('{{$message->id}}')">Заметка №: {{$message->id}}</b><br>
+
+                                <form method="post">{{csrf_field()}}
+                                    <b onclick="openbox('{{$message->id}}')">Заметка №: {{$message->id}}</b>
+                                    <input type="hidden" name="messageid" value="{{$message->id}}">
+                                    <input type="submit" class="pull-right btn btn-success btn-sm" value="Опубликовать"
+                                           name="public">
+                                </form><br>
                                 <p onclick="openbox('{{$message->id}}')" style="display: block"
                                    id="id-message{{$message->id}}">{!! nl2br($message->message) !!}</p>
                                 <form id="box{{$message->id}}" style="display: none;" method="post">
@@ -79,6 +85,8 @@
                                     <input type="submit" class="btn btn-danger pull-right" value="Удалить"
                                            name="delete">
                                 </form>
+                                @if(count($messages)>1)
+                                    <hr> @endif
                             @endforeach
                         </div>
                     @endforeach
@@ -98,7 +106,9 @@
                             document.getElementById('box' + id).style.display = 'none';
                             document.getElementById('id-message' + id).style.display = 'block';
                         }
+
                     </script>
+
                 </div>
             </div>
         </div>
