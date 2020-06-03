@@ -31,13 +31,13 @@ class HomeController extends Controller
     {
         $allResults = DB::table('results')->select(DB::raw('count(date) as count,date'))->groupBy('date')->get();
 
-       /* setlocale(LC_ALL, 'ru_RU.UTF-8');
-        $newarr=[];
-        foreach ($allResults as $allResult) {
-           $newarr[]= strftime('%e %B %Y',strtotime($allResult->date));
-        }
-        $test = strtotime($allResults[0]->date);
-        $test = strftime('%e %B %Y', $test);*/
+        /* setlocale(LC_ALL, 'ru_RU.UTF-8');
+         $newarr=[];
+         foreach ($allResults as $allResult) {
+            $newarr[]= strftime('%e %B %Y',strtotime($allResult->date));
+         }
+         $test = strtotime($allResults[0]->date);
+         $test = strftime('%e %B %Y', $test);*/
         return view('home', [
             'allResults' => $allResults,
         ]);
@@ -45,6 +45,20 @@ class HomeController extends Controller
 
     public function showResult(Request $request, $date)
     {
+        if ($request->has('form')) {
+            foreach ($request->form as $form => $value) {
+                $message = Result::find($value['id']);
+                $message->message = $value['message'];
+                $message->save();
+                Session::flash('message', 'Комментарий обновлён');
+            }
+        }
+        if ($request->has('delete')) {
+            $message = Result::find($request->deleteIdMessage);
+            $message->published = NULL;
+            $message->save();
+            Session::flash('message', 'Заметка улетела в черновик');
+        }
         if ($request->has('edit-message')) {
             $message = Result::find($request->id);
             $message->message = $request->message;
@@ -68,14 +82,7 @@ class HomeController extends Controller
                 Session::flash('message', 'Добавлена новая запись');
             }
         }
-        if ($request->has('delete')) {
-            User::find(Auth::id())->results()->find($request->deleteIdMessage)->delete();
-            DB::table('result_user')->where([
-                ['user_id', Auth::id()],
-                ['result_id', $request->deleteIdMessage]
-            ])->delete();
-            Session::flash('message', 'Ваша заметка удалена');
-        }
+
         $allData = Result::all();
         $allDataToday = $allData->where('date', $date);
         //$messagesGroupBy = User::find(Auth::id())->results()->where('published', '=', NULL)->get()
@@ -89,7 +96,7 @@ class HomeController extends Controller
         //dump(User::find(Auth::id())->results());
 
         return view('result.show', [
-            'allUsers'=>User::all(),
+            'allUsers' => User::all(),
             'allData' => $allData,
             'allDataToday' => $allDataToday,
             'date' => $date,
