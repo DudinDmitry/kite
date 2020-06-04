@@ -53,7 +53,8 @@ class LkController extends Controller
         $messagesGroupBy = User::find(Auth::id())->results()->where('published', '=', NULL)->get()
             ->groupBy('date');
         $messages = User::find(Auth::id())->results()->get();
-        $results = DB::table('results')->select(DB::raw('date'))->groupBy('date')->get();
+        $results = DB::table('results')->select(DB::raw('date'))->
+            orderBy('date','desc')->groupBy('date')->get();
         return view('lk.show', [
             'messages' => $messages,
             'results' => $results,

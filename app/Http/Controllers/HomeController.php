@@ -29,7 +29,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $allResults = DB::table('results')->select(DB::raw('count(date) as count,date'))->groupBy('date')->get();
+        $allResults = DB::table('results')->select(DB::raw('count(date) as count,date'))
+            ->where('published','=',1)->orderBy('date','desc')->groupBy('date')->get();
 
         /* setlocale(LC_ALL, 'ru_RU.UTF-8');
          $newarr=[];
