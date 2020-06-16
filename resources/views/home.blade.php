@@ -12,6 +12,7 @@
                         <a href="/result/{{$allResult->date}}"> <h4>{{$allResult->date}} ({{$allResult->count}})</h4></a>
                     @endforeach
                 </div>
+                
             </div>
         </div>
     </div>

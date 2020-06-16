@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    <script src="https://cdn.tiny.cloud/1/obkrz74iyl6hto6fgr2ag9urtvz4erkokkh3jxu3uoxbj8ur/tinymce/5/tinymce.min.js"
+            referrerpolicy="origin"></script>
+    <script>tinymce.init({selector: 'textarea'});</script>
+
+
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -67,8 +72,8 @@
                                     <input type="submit" class="pull-right btn btn-success btn-sm" value="Опубликовать"
                                            name="public">
                                 </form><br>
-                                <p onclick="openbox('{{$message->id}}')" style="display: block"
-                                   id="id-message{{$message->id}}">{!! nl2br($message->message) !!}</p>
+                                <div onclick="openbox('{{$message->id}}')" style="display: block"
+                                   id="id-message{{$message->id}}">{!! nl2br($message->message) !!}</div>
                                 <form id="box{{$message->id}}" style="display: none;" method="post">
                                     {{csrf_field()}}
                                     <textarea class="form-control" id="exampleFormControlTextarea1"

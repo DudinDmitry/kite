@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    <script src="https://cdn.tiny.cloud/1/obkrz74iyl6hto6fgr2ag9urtvz4erkokkh3jxu3uoxbj8ur/tinymce/5/tinymce.min.js"
+            referrerpolicy="origin"></script>
+    <script>tinymce.init({selector: 'textarea'});</script>
+
     <div class="container">
         <div class="col-md-8 col-md-offset-2">
             <div class="alert alert-info text-center">
@@ -25,8 +29,8 @@
 
                                     <b onclick="openbox('{{$data->id}}')">Заметка №: {{$data->id}}</b>
 
-                                    <p onclick="openbox('{{$data->id}}')" style="display: block"
-                                       id="id-message{{$data->id}}">{!! nl2br($data->message) !!}</p>
+                                    <div onclick="openbox('{{$data->id}}')" style="display: block"
+                                       id="id-message{{$data->id}}">{!! nl2br($data->message) !!}</div>
                                     <form id="box{{$data->id}}" style="display: none;" method="post">
                                         {{csrf_field()}}
                                         <textarea class="form-control" id="exampleFormControlTextarea1"
